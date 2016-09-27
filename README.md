@@ -69,7 +69,7 @@ If the server exposes the schema without properly using an `application/raml+yam
 
 At this point you can start to interact with the API.
 
-    coreapi action search-item --param q="Deadmaus" --param type=artist
+    $ coreapi action search-item --param q="Deadmaus" --param type=artist
     {
         "artists": {
             "href": "https://api.spotify.com/v1/search?query=Deadmaus&offset=0&limit=20&type=artist",
@@ -111,7 +111,7 @@ Use the `--debug` flag to see the full HTTP request and response.
     < Strict-Transport-Security: max-age=31536000;
     < Transfer-Encoding: chunked
     < X-Content-Type-Options: nosniff
-    < 
+    <
     < {
     <   "artists" : {
     <     "href" : "https://api.spotify.com/v1/search?query=Deadmaus&offset=0&limit=20&type=artist",
