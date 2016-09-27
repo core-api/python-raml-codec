@@ -54,7 +54,7 @@ if sys.argv[-1] == 'publish':
 setup(
     name='raml-codec',
     version=version,
-    url='http://github.com/core-api/raml-codec/',
+    url='http://github.com/core-api/python-raml-codec/',
     license='BSD',
     description='A RAML codec for Core API.',
     author='Tom Christie',
