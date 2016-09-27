@@ -1,6 +1,6 @@
 # Package requirements
 coreapi
-ramlfication
+ramlfications
 
 # Testing requirements
 coverage
