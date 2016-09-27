@@ -10,7 +10,7 @@ import requests
 import yaml
 
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 
 class RAMLLoader(RAMLFileLoader):
@@ -82,6 +82,7 @@ class RAMLCodec(BaseCodec):
         loader = RAMLLoader(base_url)
         data = loader.load(bytestring)
         config = setup_config()
+        config['validate'] = False
         raml = parse_raml(data, config)
 
         content = {}
