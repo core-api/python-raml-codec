@@ -79,7 +79,7 @@ class RAMLCodec(BaseCodec):
 
     def decode(self, bytestring, **options):
         base_url = options.get('base_url', None)
-        loader = URLRAMLLoader(base_url)
+        loader = RAMLLoader(base_url)
         data = loader.load(bytestring)
         config = setup_config()
         raml = parse_raml(data, config)
@@ -112,6 +112,7 @@ class RAMLCodec(BaseCodec):
             link = coreapi.Link(
                 url=resource.absolute_uri,
                 action=resource.method.lower(),
+                encoding=encoding,
                 fields=fields
             )
             content[resource.display_name] = link
