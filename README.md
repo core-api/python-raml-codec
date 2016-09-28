@@ -119,7 +119,7 @@ Use the `--debug` flag to see the full HTTP request and response.
     ...
 
 
-[travis-image]: https://secure.travis-ci.org/core-api/raml-codec.svg?branch=master
+[travis-image]: https://secure.travis-ci.org/core-api/python-raml-codec.svg?branch=master
 [travis]: http://travis-ci.org/core-api/raml-codec?branch=master
 [pypi-image]: https://img.shields.io/pypi/v/raml-codec.svg
 [pypi]: https://pypi.python.org/pypi/raml-codec
