@@ -3,7 +3,7 @@ from raml_codec.decode import decode_raml
 from raml_codec.encode import encode_raml
 
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 
 class RAMLCodec(BaseCodec):
@@ -15,4 +15,5 @@ class RAMLCodec(BaseCodec):
         return decode_raml(bytestring, base_url)
 
     def encode(self, document, **options):
-        return encode_raml(document)
+        base_url = options.get('base_url', None)
+        return encode_raml(document, base_url)

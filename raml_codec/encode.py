@@ -1,4 +1,3 @@
-import os
 import yaml
 
 
@@ -20,13 +19,39 @@ def get_resources(node, keys=()):
     return resources
 
 
-def get_resource(keys, link):
-    display_name = '_'.join(keys)
-    path_fields = [field for field in link.fields if field.location == 'path']
-    query_fields = [field for field in link.fields if field.location == 'query']
+def get_params(fields):
     return {
+        field.name: {
+            'description': field.description,
+            'type': field.type,
+            'required': field.required
+        } for field in fields
+    }
+
+
+def get_resource(keys, link):
+    ret = {
         'description': link.description
     }
+
+    query_fields = [field for field in link.fields if field.location == 'query']
+    form_fields = [field for field in link.fields if field.location == 'form']
+
+    # path fields are awkward to handle, because of the way RAML collates
+    # them into particular sections.
+
+    # We also need to handle mapping application/json form fields and body
+    # fields into a JSON schema representation.
+
+    if query_fields:
+        ret['queryParameters'] = get_params(query_fields)
+    if form_fields and link.encoding in ('multipart/form-data', 'application/x-www-form-urlencoded'):
+        ret['body'] = {
+            link.encoding: {
+                'formParameters': get_params(form_fields)
+            }
+        }
+    return ret
 
 
 def insert_into(target, keys, value):
@@ -85,12 +110,12 @@ def layout_resources(resources):
     return output
 
 
-def encode_raml(document):
+def encode_raml(document, base_url):
     resources = get_resources(document)
     resources = layout_resources(resources)
     structure = {
         'title': document.title,
-        'baseUri': 'http://127.0.0.1:8000' #document.url,
+        'baseUri': base_url or document.url,
     }
     structure.update(resources)
     output = '#%RAML 0.8\n'
