@@ -61,12 +61,12 @@ def expand_schema(schema):
                 name=key,
                 location='form',
                 required=schema_properties.get('required', key in schema_required),
-                description=schema_properties[key].get('description')
+                description=schema_properties[key].get('description', '')
             ))
         return fields
 
     # If the schema is not type="object", then return a single field.
-    return coreapi.Field(name='data', location='body', required=True)
+    return coreapi.Field(name='data', location='body', required=True, description=schema.get('description', ''))
 
 
 def decode_raml(bytestring, base_url=None):
@@ -82,11 +82,11 @@ def decode_raml(bytestring, base_url=None):
         encoding = ''
 
         for param in resource.uri_params or []:
-            field = coreapi.Field(param.name, param.required, location='path')
+            field = coreapi.Field(param.name, param.required, location='path', description=param.description)
             fields.append(field)
 
         for param in resource.query_params or []:
-            field = coreapi.Field(param.name, param.required, location='query')
+            field = coreapi.Field(param.name, param.required, location='query', description=param.description)
             fields.append(field)
 
         if resource.body:
@@ -94,7 +94,7 @@ def decode_raml(bytestring, base_url=None):
             encoding = body.mime_type
 
             for form_param in body.form_params or []:
-                field = coreapi.Field(param.name, param.required, location='form')
+                field = coreapi.Field(param.name, param.required, location='form', description=param.description)
                 fields.append(field)
 
             if body.schema:
@@ -105,8 +105,13 @@ def decode_raml(bytestring, base_url=None):
             url=resource.absolute_uri,
             action=resource.method.lower(),
             encoding=encoding,
-            fields=fields
+            fields=fields,
+            title=resource.display_name,
+            description=str(resource.description) if resource.description else ''
         )
         content[resource.display_name] = link
 
-    return coreapi.Document(title=raml.title, url=base_url, content=content)
+    description = ''
+    if raml.documentation:
+        description = str(raml.documentation[0].content)
+    return coreapi.Document(title=raml.title, url=base_url, content=content, description=description, media_type='application/raml+yaml')
