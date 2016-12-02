@@ -109,7 +109,13 @@ def decode_raml(bytestring, base_url=None):
             title=resource.display_name,
             description=str(resource.description) if resource.description else ''
         )
-        content[resource.display_name] = link
+        section = resource.path.strip('/').split('/')[0]
+        if section:
+            if section not in content:
+                content[section] = {}
+            content[section][resource.display_name] = link
+        else:
+            content[resource.display_name] = link
 
     description = ''
     if raml.documentation:
