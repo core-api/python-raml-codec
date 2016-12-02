@@ -3,7 +3,7 @@ from raml_codec.decode import decode_raml
 from raml_codec.encode import encode_raml
 
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 
 
 class RAMLCodec(BaseCodec):

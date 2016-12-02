@@ -62,7 +62,7 @@ setup(
     packages=get_packages('raml_codec'),
     package_data=get_package_data('raml_codec'),
     install_requires=[
-        'coreapi',
+        'coreapi>=2.1.0',
         'ramlfications'
     ],
     classifiers=[
