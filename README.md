@@ -27,21 +27,27 @@ Install `coreapi` and the `raml-codec`.
 To use the Python client library to interact with a service that exposes a Swagger schema,
 include the codec in [the `decoders` argument][decoders].
 
-    >>> from raml_codec import RAMLCodec
-    >>> from coreapi.codecs import JSONCodec
-    >>> from coreapi import Client
-    >>> decoders = [RAMLCodec(), JSONCodec()]
-    >>> client = Client(decoders=decoders)
+```py
+>>> from raml_codec import RAMLCodec
+>>> from coreapi.codecs import JSONCodec
+>>> from coreapi import Client
+>>> decoders = [RAMLCodec(), JSONCodec()]
+>>> client = Client(decoders=decoders)
+```
 
 If the server exposes the schema without properly using an `application/raml+yaml` content type, then you'll need to make sure to include `format='raml'` on the initial request,
 to force the correct codec to be used.
 
-    >>> url = 'https://raw.githubusercontent.com/spotify/web-api/master/specifications/raml/api.raml'
-    >>> schema = client.get(url, format='raml')
+```py
+>>> url = 'https://raw.githubusercontent.com/spotify/web-api/master/specifications/raml/api.raml'
+>>> schema = client.get(url, format='raml')
+```
 
 At this point you can now start to interact with the API:
 
-    >>> client.action(schema, ['search-item'], params={'q': 'Deadmaus', 'type': 'artist'})
+```py
+>>> client.action(schema, ['search-item'], params={'q': 'Deadmaus', 'type': 'artist'})
+```
 
 ## Using with the Command Line Client
 
