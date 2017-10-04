@@ -27,7 +27,7 @@ def get_type_string(field):
     if field_type is not None:
         return field_type
     else:
-        SCHEMA_CLASS_TO_TYPE_ID.get(field_schema.__class__, 'anything')
+        return SCHEMA_CLASS_TO_TYPE_ID.get(field_schema.__class__, 'anything')
 
 
 def get_params(fields):
