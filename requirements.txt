@@ -1,6 +1,6 @@
 attrs==16.2.0
 click==6.6
-coreapi==2.0.8
+coreapi==2.2.4
 coverage==4.2
 flake8==3.0.4
 itypes==1.1.0

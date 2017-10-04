@@ -1,4 +1,5 @@
 import yaml
+from coreapi.codecs.corejson import SCHEMA_CLASS_TO_TYPE_ID
 
 
 def get_resources(node, keys=()):
@@ -19,11 +20,21 @@ def get_resources(node, keys=()):
     return resources
 
 
+def get_type_string(field):
+    field_type = getattr(field, 'type', None)
+    field_schema = getattr(field, 'schema', None)
+
+    if field_type is not None:
+        return field_type
+    else:
+        SCHEMA_CLASS_TO_TYPE_ID.get(field_schema.__class__, 'anything')
+
+
 def get_params(fields):
     return {
         field.name: {
             'description': field.description,
-            'type': field.type,
+            'type': get_type_string(field),
             'required': field.required
         } for field in fields
     }
